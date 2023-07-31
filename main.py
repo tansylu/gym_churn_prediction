@@ -122,3 +122,17 @@ from sklearn.metrics import accuracy_score
 
 preds = rf.predict(X_test)
 print(accuracy_score(preds,y_test))
+
+# Specify the path to your CSV file
+test_file_path = "gym_test.csv"
+
+# Read the CSV file into a DataFrame
+df_test = pd.read_csv(test_file_path)
+df_test = df_test.drop(df_test.columns[:3], axis=1)##Drop index, registration and row columns because they dont carry any useful data
+df_test.info()
+print(df_test.head())
+X_testing_set = df_test.drop(['Exited'],axis=1)
+
+output = rf.predict(X_testing_set)
+df_test["Exited"] = output
+df_test.to_excel("output.xlsx")
